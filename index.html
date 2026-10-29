@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoSentinel - Spatial Geofencing & Teleportation Anomaly Engine</title>
+    <!-- Leaflet.js Interactive Tactical Map (Open Source / Free) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- EXIF-JS for extracting hidden GPS coordinates from photos -->
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="tactical-hud">
+    <!-- Top Telemetry Bar -->
+    <header class="hud-header">
+        <div class="brand">
+            <span class="blinking-dot"></span>
+            <h1>GEOSENTINEL // TACTICAL SPATIAL ENGINE</h1>
+        </div>
+        <div class="hud-metrics">
+            <span class="hud-pill">ALGORITHM: RAY-CASTING (PIP)</span>
+            <span class="hud-pill">PROJECTION: WGS 84 (EPSG:4326)</span>
+            <span class="hud-status" id="geoStatus">PERIMETER: SECURE</span>
+        </div>
+    </header>
+
+    <div class="hud-body">
+        <!-- Sidebar Controls -->
+        <aside class="hud-sidebar">
+            <div class="panel">
+                <h3>📍 Target Telemetry</h3>
+                <div class="coord-box">
+                    <div>LAT: <span id="telemetryLat" class="val">28.6139</span></div>
+                    <div>LNG: <span id="telemetryLng" class="val">77.2090</span></div>
+                    <div>VELOCITY: <span id="telemetrySpeed" class="val">0.0 km/h</span></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>🕹️ Simulation Controls</h3>
+                <p class="desc">Click anywhere on the map to manually move the target, or run simulated flight paths.</p>
+                <button class="btn-cyan" onclick="startFlightSimulation()">✈️ Run Drone Incursion Path</button>
+                <button class="btn-red" onclick="triggerSpoofingAttack()">⚠️ Trigger GPS Spoofing / Jump</button>
+            </div>
+
+            <div class="panel">
+                <h3>📸 Image EXIF Geotag Extractor</h3>
+                <p class="desc">Upload any geotagged photo to extract latitude/longitude and fly the satellite to that spot.</p>
+                <input type="file" id="imageInput" accept="image/*" onchange="extractExif(event)">
+                <div id="exifData" class="exif-output">No metadata extracted yet.</div>
+            </div>
+
+            <div class="panel alert-panel">
+                <h3>🚨 Geofence Breach Log</h3>
+                <div id="breachLog" class="log-stream">
+                    <div>[SYS] Geofencing Engine Initialized (Jordan Curve PIP).</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Map Container -->
+        <div class="map-wrapper">
+            <div id="map"></div>
+            <div class="map-overlay-crosshair"></div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
